@@ -31,14 +31,15 @@ const shopItemData = [
     img: 'images/img-4.jpg',
   },
 ]
-let basket = []
-basket = JSON.parse(localStorage.getItem('basketItem'))
+// let basket = []
+basket = JSON.parse(localStorage.getItem('basketItem')) || []
 
 const generateShop = () => {
   return (shop.innerHTML = shopItemData
     // i = index / argument
     .map((i) => {
       let { id, name, price, desc, img } = i
+      let searchBasket = basket.find((i) => i.id === id) || []
       return `
     <div id='itemId_${id}' class="item">
     <img width="200" src=${img} alt="">
@@ -49,7 +50,8 @@ const generateShop = () => {
             <p>$ ${price}</p>
             <div class="btn">
               <i  onclick='decrement(${id})' class="bi bi-dash-lg"></i>
-              <div id=${id} class="quantity">0</div>
+              <div id=${id} class="quantity">
+              ${searchBasket.item === undefined ? 0 : searchBasket.item}</div>
               <i onclick='increment(${id})' class="bi bi-plus-lg"></i>
             </div>
           </div>
@@ -93,7 +95,8 @@ let update = (id) => {
 }
 
 let calculate = () => {
-  // reduce = accumulateur 
+  // reduce = accumulateur
   basketAmount = basket.map((a) => a.item).reduce((x, y) => x + y, 0)
   cartAmount.innerHTML = basketAmount
 }
+calculate()
