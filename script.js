@@ -31,13 +31,8 @@ const shopItemData = [
     img: 'images/img-4.jpg',
   },
 ]
-
-let basket = [
-  {
-    id: '',
-    item: 0,
-  },
-]
+let basket = []
+basket = JSON.parse(localStorage.getItem('basketItem'))
 
 const generateShop = () => {
   return (shop.innerHTML = shopItemData
@@ -77,6 +72,7 @@ let increment = (i) => {
   } else {
     search.item += 1
   }
+  localStorage.setItem('basketItem', JSON.stringify(basket))
   update(selectedId)
 }
 let decrement = (i) => {
@@ -87,7 +83,7 @@ let decrement = (i) => {
   } else {
     searchPara.item -= 1
   }
-  console.log(i)
+  localStorage.setItem('basketItem', JSON.stringify(basket))
   update(selectedId)
 }
 let update = (id) => {
