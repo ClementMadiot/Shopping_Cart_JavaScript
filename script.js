@@ -30,12 +30,21 @@ const shopItemData = [
     img: 'images/img-4.jpg',
   },
 ]
+
+let basket = [
+  {
+    id: '',
+    item: 0,
+  },
+]
+
 const generateShop = () => {
   return (shop.innerHTML = shopItemData
+    // i = index / argument
     .map((i) => {
       let { id, name, price, desc, img } = i
       return `
-    <div id='id_prod_${id}' class="item">
+    <div id='itemId_${id}' class="item">
     <img width="200" src=${img} alt="">
         <div class="details">
           <h2>${name}</h2>
@@ -43,9 +52,9 @@ const generateShop = () => {
           <div class="price-quantity">
             <p>$ ${price}</p>
             <div class="btn">
-              <i class="bi bi-dash-lg"></i>
-              <div class="quantity">0</div>
-              <i class="bi bi-plus-lg"></i>
+              <i  onclick='decrement(${id})' class="bi bi-dash-lg"></i>
+              <div id=${id} class="quantity">0</div>
+              <i onclick='increment(${id})' class="bi bi-plus-lg"></i>
             </div>
           </div>
         </div>
@@ -54,3 +63,34 @@ const generateShop = () => {
     .join(''))
 }
 generateShop()
+
+let increment = (i) => {
+  let selectedId = i.id
+  // a = argument
+  let search = basket.find((a) => a.id === selectedId)
+  if (search === undefined) {
+    basket.push({
+      id: selectedId,
+      item: 1,
+    })
+  } else {
+    search.item += 1
+  }
+  update(selectedId)
+}
+let decrement = (i) => {
+  let selectedId = i.id
+  let search = basket.find((a) => a.id === selectedId)
+  if (!search || !search.item || search.item === 0) {
+    alert("You don't have any item.")
+    return 0
+  } else {
+    search.item -= 1
+  }
+  // console.log(basket)
+  update(selectedId)
+}
+let update = (id) => {
+  let searchPara = basket.find((a) => a.id === id)
+  document.getElementById(id).innerHTML = searchPara.item
+}
