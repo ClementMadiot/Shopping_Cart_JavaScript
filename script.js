@@ -1,4 +1,5 @@
 const shop = document.getElementById('shop')
+const cartAmount = document.getElementById('cartAmount')
 
 const shopItemData = [
   {
@@ -80,17 +81,23 @@ let increment = (i) => {
 }
 let decrement = (i) => {
   let selectedId = i.id
-  let search = basket.find((a) => a.id === selectedId)
-  if (!search || !search.item || search.item === 0) {
-    alert("You don't have any item.")
+  let searchPara = basket.find((a) => a.id === selectedId)
+  if (!searchPara || !searchPara.item || searchPara.item === 0) {
     return 0
   } else {
-    search.item -= 1
+    searchPara.item -= 1
   }
-  // console.log(basket)
+  console.log(i)
   update(selectedId)
 }
 let update = (id) => {
   let searchPara = basket.find((a) => a.id === id)
   document.getElementById(id).innerHTML = searchPara.item
+  calculate()
+}
+
+let calculate = () => {
+  // reduce = accumulateur 
+  basketAmount = basket.map((a) => a.item).reduce((x, y) => x + y, 0)
+  cartAmount.innerHTML = basketAmount
 }
