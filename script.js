@@ -74,10 +74,12 @@ let increment = (i) => {
   } else {
     search.item += 1
   }
-  localStorage.setItem('basketItem', JSON.stringify(basket))
   update(selectedId)
+  localStorage.setItem('basketItem', JSON.stringify(basket))
 }
+
 let decrement = (i) => {
+
   let selectedId = i.id
   let searchPara = basket.find((a) => a.id === selectedId)
   if (!searchPara || !searchPara.item || searchPara.item === 0) {
@@ -85,8 +87,10 @@ let decrement = (i) => {
   } else {
     searchPara.item -= 1
   }
-  localStorage.setItem('basketItem', JSON.stringify(basket))
   update(selectedId)
+  basket = basket.filter((a) => a.item != 0)
+
+  localStorage.setItem('basketItem', JSON.stringify(basket))
 }
 let update = (id) => {
   let searchPara = basket.find((a) => a.id === id)
